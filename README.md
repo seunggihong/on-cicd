@@ -18,7 +18,21 @@ This repository is explain that building simple `CI/CD` on On-premise environmen
 
 <dev>images</dev>
 
-## **GitLab Server install**
+k8s cluster info
+```
+OS      :   Ubuntu 22.04
+core    :   4
+memory  :   32GiB
+Disk    :   100GiB
+
+MasterNode
+    IP  :   192.168.9.10
+
+WorkerNode x2
+    IP  :   192.168.9.11~12
+```
+
+## **🧩 GitLab Server install**
 
 `gitlab` server vm spec >> [GitLab Install Docs](https://about.gitlab.com/install/#ubuntu)
 
@@ -66,3 +80,8 @@ sudo gitlab-ctl reconfigure
 sudo cat /etc/gitlab/inital_root_password
 ```
 
+## **🧩 Harbor on k8s**
+
+## **🧩 Jenkins on k8s**
+
+## **🧩 Argo on k8s**
