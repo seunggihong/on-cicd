@@ -12,7 +12,7 @@ This repository is explain that building simple `CI/CD` on On-premise environmen
 ![Static Badge](https://img.shields.io/badge/gitlab-17.10-%23FC6D26?logo=gitlab&logoColor=%23FC6D26&labelColor=white)
 ![Static Badge](https://img.shields.io/badge/harbor-2.12.0-%2360B932?logo=harbor&logoColor=%2360B932&labelColor=white)
 ![Static Badge](https://img.shields.io/badge/jenkins-2.492-%23D24939?logo=jenkins&logoColor=%23D24939&labelColor=white)
-![Static Badge](https://img.shields.io/badge/argo-0.0.0-%23FC6D26?logo=argo&logoColor=%23EF7B4D&labelColor=white)
+![Static Badge](https://img.shields.io/badge/argo-2.14.9-%23FC6D26?logo=argo&logoColor=%23EF7B4D&labelColor=white)
 
 ### **Final Architecture**
 
