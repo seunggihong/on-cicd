@@ -1,0 +1,71 @@
+pipeline {
+  agent {
+    kubernetes {
+      label 'docker-agent'
+      defaultContainer 'docker'
+      yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: docker
+    image: docker:24.0.5-cli
+    command:
+    - cat
+    tty: true
+    volumeMounts:
+    - name: docker-sock
+      mountPath: /var/run/docker.sock
+  - name: jnlp
+    image: jenkins/inbound-agent:latest
+  volumes:
+  - name: docker-sock
+    hostPath:
+      path: /var/run/docker.sock
+"""
+    }
+  }
+
+  environment {
+    REGISTRY = "harbor.hong.com"
+    PROJECT = "flask"
+    IMAGE_NAME = "app"
+    VERSION = "v0.${BUILD_NUMBER}"
+    FULL_IMAGE = "${REGISTRY}/${PROJECT}/${IMAGE_NAME}:${VERSION}"
+  }
+
+  stages {
+    stage('Clone from GitLab') {
+      steps {
+        git credentialsId: 'gitlab', url: 'http://192.168.9.13/project/test.git', branch: 'main'
+      }
+    }
+
+    stage('Build Docker Image') {
+      steps {
+        container('docker') {
+          sh "docker build -t ${FULL_IMAGE} ."
+        }
+      }
+    }
+
+    stage('Push to Harbor') {
+      steps {
+        container('docker') {
+          withCredentials([usernamePassword(credentialsId: 'Harbor', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
+            sh """
+              docker login ${REGISTRY} -u $USER -p $PASS
+              docker push ${FULL_IMAGE}
+            """
+          }
+        }
+      }
+    }
+
+    stage('Show Image Info') {
+      steps {
+        echo "Pushed image: ${FULL_IMAGE}"
+      }
+    }
+  }
+}

@@ -154,3 +154,14 @@ kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/sec
 if you want to gitlab webhook, you should register jenkins-tls in gitlab server.
 
 ## **🧩 Argo on k8s**
+
+prebuild
+- ingress-nginx >> [ingress-nginx github](https://github.com/kubernetes/ingress-nginx)
+- MetalLB >> [MetalLB Docs](https://metallb.io/installation/)
+
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+helm repo update
+helm show values argo/argo-cd >> values.yaml
+helm install argo argo/argo-cd -n argo -f values.yaml
+```
