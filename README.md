@@ -18,7 +18,7 @@ This repository is explain that building simple `CI/CD` on On-premise environmen
 
 ### **Final Architecture**
 
-<dev>images</dev>
+<img src="assets/arch.png" title="arch">
 
 k8s cluster info
 ```
