@@ -6,6 +6,8 @@ This repository is explain that building simple `CI/CD` on On-premise environmen
 
 ![Static Badge](https://img.shields.io/badge/kubernetes-1.30.0-%23326CE5?logo=kubernetes&labelColor=white)
 ![Static Badge](https://img.shields.io/badge/helm-3.17.1-%230F1689?logo=helm&logoColor=%230F1689&labelColor=white)
+![Static Badge](https://img.shields.io/badge/docker-28.0.1-%232496ED?logo=docker&logoColor=%232496ED&labelColor=white)
+
 
 ### **CI/CD Tools**
 
@@ -30,6 +32,9 @@ MasterNode
 
 WorkerNode x2
     IP  :   192.168.9.11~12
+
+CNI     :   Cilium  v1.17.2
+CRI     :   cri-o   v1.33.0
 ```
 
 ## **🧩 GitLab Server install**
@@ -81,6 +86,34 @@ sudo cat /etc/gitlab/inital_root_password
 ```
 
 ## **🧩 Harbor on k8s**
+
+prebuild 
+- ingress-nginx >> [ingress-nginx github](https://github.com/kubernetes/ingress-nginx)
+- MetalLB >> [MetalLB Docs](https://metallb.io/installation/)
+
+harbor install
+```bash
+# k8s cluster master node
+helm repo add harbor https://helm.goharbor.io
+helm show values harbor/harbor >> values.yaml
+
+helm install harbor harbor/harbor -n harbor -f values.yaml
+```
+
+if you using macos you should register harbor-tls keychains.
+```bash
+# export CA cert
+ kubectl get secret harbor-tls -n harbor -o jsonpath="{.data.tls\.crt}" | base64 -d > harbor.crt
+```
+
+harbor push test
+```
+docker login {harbor-domin} -u admin
+
+docker pull nginx:latest
+docker tag nginx {harbor-domin}/{project-name}/nginx:v1
+docker pull {harbor-domin}/{project-name}/nginx:v1
+```
 
 ## **🧩 Jenkins on k8s**
 
