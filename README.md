@@ -95,6 +95,7 @@ harbor install
 ```bash
 # k8s cluster master node
 helm repo add harbor https://helm.goharbor.io
+helm repo update
 helm show values harbor/harbor >> values.yaml
 
 helm install harbor harbor/harbor -n harbor -f values.yaml
@@ -116,5 +117,40 @@ docker pull {harbor-domin}/{project-name}/nginx:v1
 ```
 
 ## **🧩 Jenkins on k8s**
+
+prebuild
+- ingress-nginx >> [ingress-nginx github](https://github.com/kubernetes/ingress-nginx)
+- MetalLB >> [MetalLB Docs](https://metallb.io/installation/)
+
+```bash
+helm repo add jenkinsci https://charts.jenkins.io
+helm repo update
+helm show values jenkinsci/jenkins >> values.yaml
+helm install jenkins jenkinsci/jenkins -n jenkins -f values.yaml
+```
+
+if not have jenkins-tls certs you should make it.
+```bash
+# make certs
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -out jenkins.crt -keyout jenkins.key \
+  -subj "/CN={YOUR_DOMAIN}/O=jenkins"
+
+# apply certs
+kubectl create secret tls jenkins-tls \
+  --cert=jenkins.crt \
+  --key=jenkins.key \
+  -n jenkins
+
+# check certs
+kubectl get secret jenkins-tls -n jenkins
+```
+
+inital admin password
+```bash
+kubectl exec --namespace jenkins -it svc/jenkins -c jenkins -- /bin/cat /run/secrets/additional/chart-admin-password && echo
+```
+
+if you want to gitlab webhook, you should register jenkins-tls in gitlab server.
 
 ## **🧩 Argo on k8s**
