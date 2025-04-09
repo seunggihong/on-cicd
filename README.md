@@ -1,6 +1,6 @@
 # CI/CD (On-premise)
 
-This repository is explain that building simple `CI/CD` on On-premise environment. You need a Kubernetes cluster. If you don't have kubernetes cluster, you should setup cluster.
+This repository is explain that building simple `CI/CD` tools on On-premise environment. You need a Kubernetes cluster. If you don't have kubernetes cluster, you should setup cluster.
 
 ### **Pre infra**
 
@@ -164,4 +164,9 @@ helm repo add argo https://argoproj.github.io/argo-helm
 helm repo update
 helm show values argo/argo-cd >> values.yaml
 helm install argo argo/argo-cd -n argo -f values.yaml
+```
+
+## **🧩 SonarQube**
+```vim
+Added Soon...
 ```
